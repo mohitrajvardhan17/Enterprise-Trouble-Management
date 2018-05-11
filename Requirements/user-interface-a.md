@@ -1,5 +1,5 @@
 #Identify user table name.
-- ETM_People
+> ETM_People
 #Identify all the required column (NAME, TYPE, SIZE, REQUIRED, IS NULL, DEFAULT)
 - Username char 7 Yes
 #Create database table as per the finalized columns.
