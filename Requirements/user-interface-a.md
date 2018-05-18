@@ -1,7 +1,7 @@
 ### Identify user table name.
     ETM_People
 ### Identify all the required column (NAME, TYPE, SIZE, REQUIRED, IS NULL, DEFAULT)
-    (Username, CHARACTER, 30, Yes, NOT NULL, No)
+    (Name, CHARACTER, 30, Yes, NOT NULL, No)
     (Signum_ID, VARCHAR, 7, Yes, NOT NULL, No)
     (First_Phone_Number, INTEGER, 10, Yes, NOT NULL, No)
     (Second_Phone_Number, BIGINT, 19, No, NULL, No)
