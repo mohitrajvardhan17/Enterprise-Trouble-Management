@@ -77,18 +77,21 @@ public class Users implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "id")
     )
     private Account account;
+    @OneToMany
     @JoinTable(
         name="USER_DEPARTMENT_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "id")
     )
     private Department department;
+    @OneToMany
     @JoinTable(
         name="USER_TEAM_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "TEAM_ID", referencedColumnName = "id")
     )
     private Team team;
+    @OneToMany
     @JoinTable(
         name="USER_POLICY_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
@@ -98,6 +101,7 @@ public class Users implements Serializable{
     private boolean isActive;
     private boolean isOnline;
     private boolean isLocked;
+    private boolean isExternal;
     @UpdateTimestamp    
     private Date lastModifiedDate;
     @CreationTimestamp
