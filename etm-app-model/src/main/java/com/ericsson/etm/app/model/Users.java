@@ -39,7 +39,8 @@ public class Users implements Serializable{
     private String gender;
     private String email;
     private String password;
-    private String lastPasswordReset;
+    private Date lastPasswordReset;
+    private Date lastLogin;
     private String oneTimePassword;
     @Column(name = "attempt_failed")
     private int attemptFailed;
