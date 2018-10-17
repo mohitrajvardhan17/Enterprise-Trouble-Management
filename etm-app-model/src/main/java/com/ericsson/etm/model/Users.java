@@ -43,12 +43,15 @@ public class Users implements Serializable{
     private String gender;
     private String email;
     private String password;
+    @Column(name = "last_password_reset")
     private Date lastPasswordReset;
+    @Column(name = "last_password_reset")
     private Date lastLogin;
+    @Column(name = "one_time_password")
     private String oneTimePassword;
     @Column(name = "attempt_failed")
     private int attemptFailed;
-    @Column(name = "login_ip")
+    @Column(name = "login_history")
     private LoginHistory loginHistory;
     @Column(name = "auto_login")
     private int autoLogin;
@@ -103,19 +106,27 @@ public class Users implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "POLICY_ID", referencedColumnName = "id")
     )
     private Policy policy;
+    @Column(name = "is_active")
     private boolean isActive;
+    @Column(name = "is_online")
     private boolean isOnline;
+    @Column(name = "is_locked")
     private boolean isLocked;
+    @Column(name = "is_external")
     private boolean isExternal;
     @UpdateTimestamp    
+    @Column(name = "last_modified_date")    
     private Date lastModifiedDate;
     @CreationTimestamp
+    @Column(name = "creation_date")    
     private Date creationDate;
     //@LastModifiedBy
     @OneToOne
+    @Column(name = "last_modified_by")    
     private Users lastModifiedBy;
     //@CreatedBy
     @OneToOne
+    @Column(name = "created_by")    
     private Users createdBy;
 	/**
 	 * @return the id
