@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
-import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,20 +12,12 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
-class Policy implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7842259465246049987L;
+public final class init {
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "policy_name")
-    private String name;
+	
+	
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -51,6 +38,5 @@ class Policy implements Serializable {
     //@CreatedBy
     @OneToOne
     @Column(name = "created_by")
-    private Users createdBy;         
-    
+    private Users createdBy;
 }

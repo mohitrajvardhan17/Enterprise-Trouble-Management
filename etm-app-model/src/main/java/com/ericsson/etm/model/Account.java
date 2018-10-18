@@ -28,7 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  */
 @Entity
 @Table(name = "Account")
-class Account  implements Serializable{
+class Account implements Serializable {
     /**
 	 * 
 	 */
@@ -49,7 +49,7 @@ class Account  implements Serializable{
         joinColumns = @JoinColumn(name = "ACCOUNT_ID",referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "TEAM_ID", referencedColumnName = "id")
     )
-    private Team team;
+    private Teams teams;
     @OneToMany    
     @JoinTable(
         name="ACCOUNT_DEPARTMENT_RELATION",
@@ -112,14 +112,14 @@ class Account  implements Serializable{
 	/**
 	 * @return the team
 	 */
-	public Team getTeam() {
-		return team;
+	public Teams getTeam() {
+		return teams;
 	}
 	/**
 	 * @param team the team to set
 	 */
-	public void setTeam(Team team) {
-		this.team = team;
+	public void setTeam(Teams teams) {
+		this.teams = teams;
 	}
 	/**
 	 * @return the department
