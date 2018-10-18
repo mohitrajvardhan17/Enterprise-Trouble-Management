@@ -70,10 +70,11 @@ public class Users implements Serializable{
     private Contact contact;
     @OneToMany
     @JoinTable(
-        name="USER_CONTACT_RELATION",
+        name="USER_ROLE_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "CONTACT_ID", referencedColumnName = "id")
+        inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
     )
+    private Role role;
     @OneToOne
     private Authenticator authenticator;
     @OneToOne
