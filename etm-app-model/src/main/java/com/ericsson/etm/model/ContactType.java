@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
@@ -20,24 +15,18 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
 @Entity
 @Table(name = "Contact")
-class Contact implements Serializable{
+public class ContactType implements Serializable {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1918074921700989999L;
+	private static final long serialVersionUID = 2174776695637406905L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;    
+    @Column(name = "contact_type_name")
+    private String name;    
     private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -74,26 +63,14 @@ class Contact implements Serializable{
 	/**
 	 * @return the contactType
 	 */
-	public ContactType getContactType() {
-		return contactType;
+	public String getContactType() {
+		return name;
 	}
 	/**
 	 * @param contactType the contactType to set
 	 */
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-	/**
-	 * @return the contactValue
-	 */
-	public String getContactValue() {
-		return contactValue;
-	}
-	/**
-	 * @param contactValue the contactValue to set
-	 */
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setContactType(String name) {
+		this.name = name;
 	}
 	/**
 	 * @return the description

@@ -5,6 +5,7 @@
  */
 package com.ericsson.etm.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,10 +18,15 @@ import javax.persistence.OneToOne;
  *
  * @author emorajv
  */
-class LoginHistory {
-    @Id
+class LoginHistory implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8153145687968513257L;
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+	private Account account;
     @Column(name = "source_ip")
     private String sourceIp;
     @Column(name = "login_type")
@@ -48,6 +54,18 @@ class LoginHistory {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	/**
+	 * @return the account
+	 */
+	public Account getAccount() {
+		return account;
+	}
+	/**
+	 * @param account the account to set
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	/**
 	 * @return the sourceIp
@@ -133,5 +151,10 @@ class LoginHistory {
 	public void setAgent(String agent) {
 		this.agent = agent;
 	}
-    
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

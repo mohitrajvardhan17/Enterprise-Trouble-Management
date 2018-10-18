@@ -17,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -26,7 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  */
 @Entity
 @Table(name = "Users")
-public class Users implements Serializable{
+public class Users implements Serializable {
     /**
 	 * 
 	 */
@@ -116,9 +118,11 @@ public class Users implements Serializable{
     @Column(name = "is_external")
     private boolean isExternal;
     @UpdateTimestamp    
+    @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name = "last_modified_date")    
     private Date lastModifiedDate;
     @CreationTimestamp
+    @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name = "creation_date")    
     private Date creationDate;
     //@LastModifiedBy
@@ -346,6 +350,18 @@ public class Users implements Serializable{
 		this.contact = contact;
 	}
 	/**
+	 * @return the role
+	 */
+	public Role getRole() {
+		return role;
+	}
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	/**
 	 * @return the authenticator
 	 */
 	public Authenticator getAuthenticator() {
@@ -513,4 +529,11 @@ public class Users implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+    
 }

@@ -43,13 +43,6 @@ class Account  implements Serializable{
         inverseJoinColumns = @JoinColumn(name="ROLE_ID",referencedColumnName = "id")
     )
     private Role role;
-    @OneToMany
-    @JoinTable(
-        name="ACCOUNT_PERMISSION_RELATION",
-        joinColumns = @JoinColumn(name="ACCOUNT_ID",referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name="PERMISSION_ID",referencedColumnName = "id")
-    )
-    private Permission permission;
     @OneToMany    
     @JoinTable(
         name="ACCOUNT_TEAM_RELATION",
@@ -71,7 +64,6 @@ class Account  implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "CONTACT_ID", referencedColumnName = "id")
     )
     private Contact contact;
-    
     private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -79,15 +71,19 @@ class Account  implements Serializable{
     private boolean isDefault;
     @UpdateTimestamp    
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "last_modified_date")
     private Date lastModifiedDate;
     @CreationTimestamp
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "creation_date")     
     private Date creationDate;
     //@LastModifiedBy
     @OneToOne
+    @Column(name = "last_modified_by")    
     private Users lastModifiedBy;
     //@CreatedBy
     @OneToOne
+    @Column(name = "created_by")
     private Users createdBy;
 	/**
 	 * @return the id
@@ -112,18 +108,6 @@ class Account  implements Serializable{
 	 */
 	public void setRole(Role role) {
 		this.role = role;
-	}
-	/**
-	 * @return the permission
-	 */
-	public Permission getPermission() {
-		return permission;
-	}
-	/**
-	 * @param permission the permission to set
-	 */
-	public void setPermission(Permission permission) {
-		this.permission = permission;
 	}
 	/**
 	 * @return the team
@@ -251,4 +235,5 @@ class Account  implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+    
 }
