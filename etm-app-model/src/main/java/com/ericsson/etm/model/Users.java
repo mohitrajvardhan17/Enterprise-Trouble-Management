@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -21,6 +20,7 @@ import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -32,9 +32,23 @@ public class Users implements Serializable {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -3654112724867147602L;
+	private static final long serialVersionUID = 1071499811562708319L;
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GenericGenerator(
+        name = "sequence_usr_id", 
+        strategy = "com.ericsson.etm.util.CustomIdentifierGenerator",
+        parameters = {@org.hibernate.annotations.Parameter(
+            name = "prefix", 
+            value = "USR"),
+            @org.hibernate.annotations.Parameter(
+            name = "tableName", 
+            value = "Users"),
+            @org.hibernate.annotations.Parameter(
+            name = "format", 
+            value = "%08d")
+        }
+    )
+    @GeneratedValue(generator = "sequence_user_id") 
     private int id;
     private String description;
     private String username;
@@ -80,28 +94,137 @@ public class Users implements Serializable {
     @OneToOne
     private Authenticator authenticator;
     @OneToOne
-    private Locale locale;
+    private Locale locale;    
     @OneToMany
     @JoinTable(
-        name="USER_ACCOUNT_RELATION",
+        name="USER_TICKET_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "id")
+        inverseJoinColumns = @JoinColumn(name = "TICKET_ID", referencedColumnName = "id")
     )
-    private Account account;
+    private TtTicket Ticket;
     @OneToMany
     @JoinTable(
-        name="USER_DEPARTMENT_RELATION",
+        name="USER_TICKETSOURCE_RELATION",
         joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "id")
+        inverseJoinColumns = @JoinColumn(name = "TICKETSOURCE_ID", referencedColumnName = "id")
     )
-    private Department department;
+    private TtSource source;
+    @OneToMany    
+    @JoinTable(
+        name="USER_TICKETOTHERINVOLVEMENT_RELATION",
+        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TICKETOTHERINVOLVEMENT_ID", referencedColumnName = "id")
+    )
+	private TtOtherInvolvement otherInvolvement;
+    @OneToMany    
+    @JoinTable(
+        name="USER_TICKETDELIVERYPLATFORM_RELATION",
+        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TICKETDELIVERYPLATFORM_ID", referencedColumnName = "id")
+    )
+    private TtDeliveryPlatform DeliveryPlatform;
+    @OneToMany    
+    @JoinTable(
+            name="USER_TICKETDELIVERYTOOL_RELATION",
+            joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "TICKETDELIVERYTOOL_ID", referencedColumnName = "id")
+        )
+    private TtDeliveryTool deliveryTool;	    
+    @OneToMany    
+    @JoinTable(
+            name="USER_TICKETAFFECTEDREGION_RELATION",
+            joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "TICKETAFFECTEDREGION_ID", referencedColumnName = "id")
+        )
+    private TtAffectedRegion affectedRegion;
+    @OneToMany    
+    @JoinTable(
+            name="USER_TICKETAFFECTEDAREA_RELATION",
+            joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "TICKETAFFECTEDAREA_ID", referencedColumnName = "id")
+        )
+    private TtAffectedArea affectedArea;
     @OneToMany
     @JoinTable(
-        name="USER_TEAM_RELATION",
-        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "TEAM_ID", referencedColumnName = "id")
+        name="USER_TICKETIMPACT_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETIMPACT_ID",referencedColumnName = "id")
     )
-    private Teams teams;
+    private TtImpact impact;
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETURGENCY_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETURGENCY_ID",referencedColumnName = "id")
+    )
+    private TtUrgency urgency;
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETPRIORITY_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETPRIORITY_ID",referencedColumnName = "id")
+    )
+    private TtPriority priority;
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETPRIORITYMATRIX_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETPRIORITYMATRIX_ID",referencedColumnName = "id")
+    )
+    private TtPriorityMatrix priorityMatrix;
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETSTATUS_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETSTATUS_ID",referencedColumnName = "id")
+    )
+    private TtStatus status;
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETSTATUSREASON_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETSTATUSREASON_ID",referencedColumnName = "id")
+    )
+	private TtStatusReason statusReason;  
+    @OneToMany
+    @JoinTable(
+        name="USER_TICKETWORKLOG_RELATION",
+        joinColumns = @JoinColumn(name="USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="TICKETWORKLOG_ID",referencedColumnName = "id")
+    )
+	private TtWorklog worklog;    
+    @OneToMany    
+    @JoinTable(
+        name="USER_TICKETAUDITLOG_RELATION",
+        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TICKETAUDITLOG_ID", referencedColumnName = "id")
+    )	
+	private TtAuditLog auditLog;
+    @OneToMany    
+    @JoinTable(
+        name="USER_TICKETSPOC_RELATION",
+        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TICKETSPOC_ID", referencedColumnName = "id")
+    )
+    private TtSPOC spoc;    
+    @OneToMany    
+    @JoinTable(
+        name="USER_TICKETNOTIFICATIONGROUP_RELATION",
+        joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TICKETNOTIFICATIONGROUP_ID", referencedColumnName = "id")
+    )	
+	private TtNotificationGroup notificationGroup;
+	@Column(name = "next_update_interval")
+	private TtNextUpdateInterval nextUpdateInterval;
+	@Column(name = "working_hours")
+	private WorkingHours workingHours;
+    @OneToMany    
+    @JoinTable(
+        name="TEAM_ALLOWEDHOLIDAY_RELATION",
+        joinColumns = @JoinColumn(name = "TEAM_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "ALLOWEDHOLIDAY_ID", referencedColumnName = "id")
+    )
+    private AllowedHolidays allowedHoliday;	
     @OneToMany
     @JoinTable(
         name="USER_POLICY_RELATION",
@@ -115,6 +238,8 @@ public class Users implements Serializable {
     private boolean isOnline;
     @Column(name = "is_locked")
     private boolean isLocked;
+    @Column(name = "is_internal")
+    private boolean isInternal;
     @Column(name = "is_external")
     private boolean isExternal;
     @UpdateTimestamp    
@@ -133,407 +258,313 @@ public class Users implements Serializable {
     @OneToOne
     @Column(name = "created_by")    
     private Users createdBy;
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the description
-	 */
 	public String getDescription() {
 		return description;
 	}
-	/**
-	 * @param description the description to set
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	/**
-	 * @return the username
-	 */
 	public String getUsername() {
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	/**
-	 * @return the firstName
-	 */
 	public String getFirstName() {
 		return firstName;
 	}
-	/**
-	 * @param firstName the firstName to set
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	/**
-	 * @return the lastName
-	 */
 	public String getLastName() {
 		return lastName;
 	}
-	/**
-	 * @param lastName the lastName to set
-	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	/**
-	 * @return the gender
-	 */
 	public String getGender() {
 		return gender;
 	}
-	/**
-	 * @param gender the gender to set
-	 */
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
-	/**
-	 * @param email the email to set
-	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/**
-	 * @return the lastPasswordReset
-	 */
 	public Date getLastPasswordReset() {
 		return lastPasswordReset;
 	}
-	/**
-	 * @param lastPasswordReset the lastPasswordReset to set
-	 */
 	public void setLastPasswordReset(Date lastPasswordReset) {
 		this.lastPasswordReset = lastPasswordReset;
 	}
-	/**
-	 * @return the lastLogin
-	 */
 	public Date getLastLogin() {
 		return lastLogin;
 	}
-	/**
-	 * @param lastLogin the lastLogin to set
-	 */
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-	/**
-	 * @return the oneTimePassword
-	 */
 	public String getOneTimePassword() {
 		return oneTimePassword;
 	}
-	/**
-	 * @param oneTimePassword the oneTimePassword to set
-	 */
 	public void setOneTimePassword(String oneTimePassword) {
 		this.oneTimePassword = oneTimePassword;
 	}
-	/**
-	 * @return the attemptFailed
-	 */
 	public int getAttemptFailed() {
 		return attemptFailed;
 	}
-	/**
-	 * @param attemptFailed the attemptFailed to set
-	 */
 	public void setAttemptFailed(int attemptFailed) {
 		this.attemptFailed = attemptFailed;
 	}
-	/**
-	 * @return the loginHistory
-	 */
 	public LoginHistory getLoginHistory() {
 		return loginHistory;
 	}
-	/**
-	 * @param loginHistory the loginHistory to set
-	 */
 	public void setLoginHistory(LoginHistory loginHistory) {
 		this.loginHistory = loginHistory;
 	}
-	/**
-	 * @return the autoLogin
-	 */
 	public int getAutoLogin() {
 		return autoLogin;
 	}
-	/**
-	 * @param autoLogin the autoLogin to set
-	 */
 	public void setAutoLogin(int autoLogin) {
 		this.autoLogin = autoLogin;
 	}
-	/**
-	 * @return the autoLogout
-	 */
 	public int getAutoLogout() {
 		return autoLogout;
 	}
-	/**
-	 * @param autoLogout the autoLogout to set
-	 */
 	public void setAutoLogout(int autoLogout) {
 		this.autoLogout = autoLogout;
 	}
-	/**
-	 * @return the autoRefresh
-	 */
 	public int getAutoRefresh() {
 		return autoRefresh;
 	}
-	/**
-	 * @param autoRefresh the autoRefresh to set
-	 */
 	public void setAutoRefresh(int autoRefresh) {
 		this.autoRefresh = autoRefresh;
 	}
-	/**
-	 * @return the rowPerPage
-	 */
 	public int getRowPerPage() {
 		return rowPerPage;
 	}
-	/**
-	 * @param rowPerPage the rowPerPage to set
-	 */
 	public void setRowPerPage(int rowPerPage) {
 		this.rowPerPage = rowPerPage;
 	}
-	/**
-	 * @return the contact
-	 */
 	public Contact getContact() {
 		return contact;
 	}
-	/**
-	 * @param contact the contact to set
-	 */
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	/**
-	 * @return the role
-	 */
 	public Role getRole() {
 		return role;
 	}
-	/**
-	 * @param role the role to set
-	 */
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	/**
-	 * @return the authenticator
-	 */
 	public Authenticator getAuthenticator() {
 		return authenticator;
 	}
-	/**
-	 * @param authenticator the authenticator to set
-	 */
 	public void setAuthenticator(Authenticator authenticator) {
 		this.authenticator = authenticator;
 	}
-	/**
-	 * @return the locale
-	 */
 	public Locale getLocale() {
 		return locale;
 	}
-	/**
-	 * @param locale the locale to set
-	 */
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	/**
-	 * @return the account
-	 */
-	public Account getAccount() {
-		return account;
+	public TtTicket getTicket() {
+		return Ticket;
 	}
-	/**
-	 * @param account the account to set
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setTicket(TtTicket ticket) {
+		Ticket = ticket;
 	}
-	/**
-	 * @return the department
-	 */
-	public Department getDepartment() {
-		return department;
+	public TtSource getSource() {
+		return source;
 	}
-	/**
-	 * @param department the department to set
-	 */
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setSource(TtSource source) {
+		this.source = source;
 	}
-	/**
-	 * @return the team
-	 */
-	public Teams getTeam() {
-		return teams;
+	public TtOtherInvolvement getOtherInvolvement() {
+		return otherInvolvement;
 	}
-	/**
-	 * @param team the team to set
-	 */
-	public void setTeam(Teams teams) {
-		this.teams = teams;
+	public void setOtherInvolvement(TtOtherInvolvement otherInvolvement) {
+		this.otherInvolvement = otherInvolvement;
 	}
-	/**
-	 * @return the policy
-	 */
+	public TtDeliveryPlatform getDeliveryPlatform() {
+		return DeliveryPlatform;
+	}
+	public void setDeliveryPlatform(TtDeliveryPlatform deliveryPlatform) {
+		DeliveryPlatform = deliveryPlatform;
+	}
+	public TtDeliveryTool getDeliveryTool() {
+		return deliveryTool;
+	}
+	public void setDeliveryTool(TtDeliveryTool deliveryTool) {
+		this.deliveryTool = deliveryTool;
+	}
+	public TtAffectedRegion getAffectedRegion() {
+		return affectedRegion;
+	}
+	public void setAffectedRegion(TtAffectedRegion affectedRegion) {
+		this.affectedRegion = affectedRegion;
+	}
+	public TtAffectedArea getAffectedArea() {
+		return affectedArea;
+	}
+	public void setAffectedArea(TtAffectedArea affectedArea) {
+		this.affectedArea = affectedArea;
+	}
+	public TtImpact getImpact() {
+		return impact;
+	}
+	public void setImpact(TtImpact impact) {
+		this.impact = impact;
+	}
+	public TtUrgency getUrgency() {
+		return urgency;
+	}
+	public void setUrgency(TtUrgency urgency) {
+		this.urgency = urgency;
+	}
+	public TtPriority getPriority() {
+		return priority;
+	}
+	public void setPriority(TtPriority priority) {
+		this.priority = priority;
+	}
+	public TtPriorityMatrix getPriorityMatrix() {
+		return priorityMatrix;
+	}
+	public void setPriorityMatrix(TtPriorityMatrix priorityMatrix) {
+		this.priorityMatrix = priorityMatrix;
+	}
+	public TtStatus getStatus() {
+		return status;
+	}
+	public void setStatus(TtStatus status) {
+		this.status = status;
+	}
+	public TtStatusReason getStatusReason() {
+		return statusReason;
+	}
+	public void setStatusReason(TtStatusReason statusReason) {
+		this.statusReason = statusReason;
+	}
+	public TtWorklog getWorklog() {
+		return worklog;
+	}
+	public void setWorklog(TtWorklog worklog) {
+		this.worklog = worklog;
+	}
+	public TtAuditLog getAuditLog() {
+		return auditLog;
+	}
+	public void setAuditLog(TtAuditLog auditLog) {
+		this.auditLog = auditLog;
+	}
+	public TtSPOC getSpoc() {
+		return spoc;
+	}
+	public void setSpoc(TtSPOC spoc) {
+		this.spoc = spoc;
+	}
+	public TtNotificationGroup getNotificationGroup() {
+		return notificationGroup;
+	}
+	public void setNotificationGroup(TtNotificationGroup notificationGroup) {
+		this.notificationGroup = notificationGroup;
+	}
+	public TtNextUpdateInterval getNextUpdateInterval() {
+		return nextUpdateInterval;
+	}
+	public void setNextUpdateInterval(TtNextUpdateInterval nextUpdateInterval) {
+		this.nextUpdateInterval = nextUpdateInterval;
+	}
+	public WorkingHours getWorkingHours() {
+		return workingHours;
+	}
+	public void setWorkingHours(WorkingHours workingHours) {
+		this.workingHours = workingHours;
+	}
+	public AllowedHolidays getAllowedHoliday() {
+		return allowedHoliday;
+	}
+	public void setAllowedHoliday(AllowedHolidays allowedHoliday) {
+		this.allowedHoliday = allowedHoliday;
+	}
 	public Policy getPolicy() {
 		return policy;
 	}
-	/**
-	 * @param policy the policy to set
-	 */
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
 	}
-	/**
-	 * @return the isActive
-	 */
 	public boolean isActive() {
 		return isActive;
 	}
-	/**
-	 * @param isActive the isActive to set
-	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	/**
-	 * @return the isOnline
-	 */
 	public boolean isOnline() {
 		return isOnline;
 	}
-	/**
-	 * @param isOnline the isOnline to set
-	 */
 	public void setOnline(boolean isOnline) {
 		this.isOnline = isOnline;
 	}
-	/**
-	 * @return the isLocked
-	 */
 	public boolean isLocked() {
 		return isLocked;
 	}
-	/**
-	 * @param isLocked the isLocked to set
-	 */
 	public void setLocked(boolean isLocked) {
 		this.isLocked = isLocked;
 	}
-	/**
-	 * @return the isExternal
-	 */
+	public boolean isInternal() {
+		return isInternal;
+	}
+	public void setInternal(boolean isInternal) {
+		this.isInternal = isInternal;
+	}
 	public boolean isExternal() {
 		return isExternal;
 	}
-	/**
-	 * @param isExternal the isExternal to set
-	 */
 	public void setExternal(boolean isExternal) {
 		this.isExternal = isExternal;
 	}
-	/**
-	 * @return the lastModifiedDate
-	 */
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	/**
-	 * @param lastModifiedDate the lastModifiedDate to set
-	 */
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-	/**
-	 * @return the creationDate
-	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
-	/**
-	 * @param creationDate the creationDate to set
-	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	/**
-	 * @return the lastModifiedBy
-	 */
 	public Users getLastModifiedBy() {
 		return lastModifiedBy;
 	}
-	/**
-	 * @param lastModifiedBy the lastModifiedBy to set
-	 */
 	public void setLastModifiedBy(Users lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 	}
-	/**
-	 * @return the createdBy
-	 */
 	public Users getCreatedBy() {
 		return createdBy;
 	}
-	/**
-	 * @param createdBy the createdBy to set
-	 */
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-	/**
-	 * @return the serialversionuid
-	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
 }

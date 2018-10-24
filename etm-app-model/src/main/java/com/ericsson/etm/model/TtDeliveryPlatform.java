@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
@@ -13,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,26 +18,26 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
 @Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+@Table(name = "TtDeliveryPlatform")
+public class TtDeliveryPlatform implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = 1659795185399814707L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
-    private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
+    @Column(name = "delivery_platform_name")
+    private String name;
+    @OneToMany    
+    @JoinTable(
+            name="DELIVERYPLATFORM_DELIVERYTOOL_RELATION",
+            joinColumns = @JoinColumn(name = "DELIVERYPLATFORM_ID",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "DELIVERYTOOL_ID", referencedColumnName = "id")
+        )
+    private TtDeliveryTool deliveryTool;	    
+
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -73,17 +71,11 @@ class Contact implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ContactType getContactType() {
-		return contactType;
+	public TtDeliveryTool getDeliveryTool() {
+		return deliveryTool;
 	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-	public String getContactValue() {
-		return contactValue;
-	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setDeliveryTool(TtDeliveryTool deliveryTool) {
+		this.deliveryTool = deliveryTool;
 	}
 	public String getDescription() {
 		return description;
@@ -127,5 +119,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }

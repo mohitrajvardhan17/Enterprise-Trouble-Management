@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
@@ -20,26 +15,18 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
 @Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+@Table(name = "TtAffectedArea")
+public class TtAffectedArea implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = -3175659496055050672L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
+    @Column(name = "affected_area_name")
     private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -72,18 +59,6 @@ class Contact implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public ContactType getContactType() {
-		return contactType;
-	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-	public String getContactValue() {
-		return contactValue;
-	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
 	}
 	public String getDescription() {
 		return description;
@@ -127,5 +102,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }

@@ -1,46 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
-@Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+public class TtStatus implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = -4718322519464911702L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
-    private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
-	private String description;
+    @Column(name = "status_name")
+    private String name;
+    @OneToMany    
+    @JoinTable(
+        name="TTSTATUS_TTSTATUSREASON_RELATION",
+        joinColumns = @JoinColumn(name = "TTSTATUS_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TTSTATUSREASON_ID", referencedColumnName = "id")
+    )
+    private TtStatusReason statusReason;
+    @OneToMany    
+    @JoinTable(
+        name="TTSTATUS_TTNEXTSTATUS_RELATION",
+        joinColumns = @JoinColumn(name = "TTSTATUS_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TTNEXTSTATUS_ID", referencedColumnName = "id")
+    )
+    private TtStatus nextStatusTransition;	
+    private String description;
     @Column(name = "is_active")
     private boolean isActive;
     @Column(name = "is_default")
@@ -73,17 +73,11 @@ class Contact implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ContactType getContactType() {
-		return contactType;
+	public TtStatusReason getStatusReason() {
+		return statusReason;
 	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-	public String getContactValue() {
-		return contactValue;
-	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setStatusReason(TtStatusReason statusReason) {
+		this.statusReason = statusReason;
 	}
 	public String getDescription() {
 		return description;
@@ -127,5 +121,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }

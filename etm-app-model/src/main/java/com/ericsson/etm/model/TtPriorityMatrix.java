@@ -1,50 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
-@Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+public class TtPriorityMatrix implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = 4836211389700378034L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
-    private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
+	private TtImpact impact;
+	private TtUrgency urgency;
+	private TtPriority priority;
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
-    @Column(name = "is_default")
-    private boolean isDefault;
     @UpdateTimestamp    
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name = "last_modified_date")
@@ -67,23 +49,23 @@ class Contact implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public TtImpact getImpact() {
+		return impact;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setImpact(TtImpact impact) {
+		this.impact = impact;
 	}
-	public ContactType getContactType() {
-		return contactType;
+	public TtUrgency getUrgency() {
+		return urgency;
 	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
+	public void setUrgency(TtUrgency urgency) {
+		this.urgency = urgency;
 	}
-	public String getContactValue() {
-		return contactValue;
+	public TtPriority getPriority() {
+		return priority;
 	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setPriority(TtPriority priority) {
+		this.priority = priority;
 	}
 	public String getDescription() {
 		return description;
@@ -96,12 +78,6 @@ class Contact implements Serializable{
 	}
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-	public boolean isDefault() {
-		return isDefault;
-	}
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
 	}
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
@@ -127,5 +103,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }

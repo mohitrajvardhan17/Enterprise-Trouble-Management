@@ -1,45 +1,45 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
-@Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+public class TtNotificationGroup implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = 3001414394321078396L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
+    @Column(name = "notification_group_name")
     private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
+    @OneToMany    
+    @JoinTable(
+        name="TTNOTIFICATIONGROUP_TTSPOC_RELATION",
+        joinColumns = @JoinColumn(name = "TTNOTIFICATIONGROUP_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "TTSPOC_ID", referencedColumnName = "id")
+    )
+    private TtSPOC spocs;
+    @OneToMany    
+    @JoinTable(
+        name="TTNOTIFICATIONGROUP_CONTACT_RELATION",
+        joinColumns = @JoinColumn(name = "TTNOTIFICATIONGROUP_ID",referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "CONTACT_ID", referencedColumnName = "id")
+    )
+    private Contact contact;
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -73,17 +73,17 @@ class Contact implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ContactType getContactType() {
-		return contactType;
+	public TtSPOC getSpocs() {
+		return spocs;
 	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
+	public void setSpocs(TtSPOC spocs) {
+		this.spocs = spocs;
 	}
-	public String getContactValue() {
-		return contactValue;
+	public Contact getContact() {
+		return contact;
 	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	public String getDescription() {
 		return description;
@@ -127,5 +127,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }

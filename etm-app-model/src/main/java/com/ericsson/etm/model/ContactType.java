@@ -18,16 +18,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "Contact")
 public class ContactType implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2174776695637406905L;
+	private static final long serialVersionUID = -5985050772440440371L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     @Column(name = "contact_type_name")
-    private String name;    
-    private String description;
+    private String name;	
+    @Column(name = "contact_type_format")
+    private String contactTypeFormat;
+ 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
     @Column(name = "is_default")
@@ -48,118 +47,64 @@ public class ContactType implements Serializable {
     @OneToOne
     @Column(name = "created_by")
     private Users createdBy;
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the contactType
-	 */
-	public String getContactType() {
+	public String getName() {
 		return name;
 	}
-	/**
-	 * @param contactType the contactType to set
-	 */
-	public void setContactType(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * @return the description
-	 */
+	public String getContactTypeFormat() {
+		return contactTypeFormat;
+	}
+	public void setContactTypeFormat(String contactTypeFormat) {
+		this.contactTypeFormat = contactTypeFormat;
+	}
 	public String getDescription() {
 		return description;
 	}
-	/**
-	 * @param description the description to set
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	/**
-	 * @return the isActive
-	 */
 	public boolean isActive() {
 		return isActive;
 	}
-	/**
-	 * @param isActive the isActive to set
-	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	/**
-	 * @return the isDefault
-	 */
 	public boolean isDefault() {
 		return isDefault;
 	}
-	/**
-	 * @param isDefault the isDefault to set
-	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
-	/**
-	 * @return the lastModifiedDate
-	 */
 	public Date getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	/**
-	 * @param lastModifiedDate the lastModifiedDate to set
-	 */
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-	/**
-	 * @return the creationDate
-	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
-	/**
-	 * @param creationDate the creationDate to set
-	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	/**
-	 * @return the lastModifiedBy
-	 */
 	public Users getLastModifiedBy() {
 		return lastModifiedBy;
 	}
-	/**
-	 * @param lastModifiedBy the lastModifiedBy to set
-	 */
 	public void setLastModifiedBy(Users lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 	}
-	/**
-	 * @return the createdBy
-	 */
 	public Users getCreatedBy() {
 		return createdBy;
 	}
-	/**
-	 * @param createdBy the createdBy to set
-	 */
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
-	}
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

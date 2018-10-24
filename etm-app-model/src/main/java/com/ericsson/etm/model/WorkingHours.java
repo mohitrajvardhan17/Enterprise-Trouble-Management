@@ -1,45 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ericsson.etm.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- *
- * @author emorajv
- */
-@Entity
-@Table(name = "Contact")
-class Contact implements Serializable{
+
+public class WorkingHours implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3439560970869600737L;
+	private static final long serialVersionUID = 407637121796661886L;
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name = "contact_name")
-    private String name;	
-    @Column(name = "contact_type")
-    private ContactType contactType;
-    @Column(name = "contact_value")
-    private String contactValue;
+    @Column(name = "start_time")     
+    private String startTime;
+    @Column(name = "end_time")     
+    private String endTime;
+	private Locale locale;
 	private String description;
     @Column(name = "is_active")
     private boolean isActive;
@@ -67,23 +54,23 @@ class Contact implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getStartTime() {
+		return startTime;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
-	public ContactType getContactType() {
-		return contactType;
+	public String getEndTime() {
+		return endTime;
 	}
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
-	public String getContactValue() {
-		return contactValue;
+	public Locale getLocale() {
+		return locale;
 	}
-	public void setContactValue(String contactValue) {
-		this.contactValue = contactValue;
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 	public String getDescription() {
 		return description;
@@ -127,5 +114,4 @@ class Contact implements Serializable{
 	public void setCreatedBy(Users createdBy) {
 		this.createdBy = createdBy;
 	}
-
 }
